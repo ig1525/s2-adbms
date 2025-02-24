@@ -1,0 +1,174 @@
+sstudent@student-Veriton-M200-H310:~$ sudo mysql;
+[sudo] password for student: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.41-0ubuntu0.20.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use ig;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> create table employee;
+ERROR 4028 (HY000): A table must have at least one visible column.
+mysql> create table employee(employee_id INT PRIMARY KEY,name VARCHAR(10),gender text(10),deptar_name VARCHAR (20),salary INT(10));
+ERROR 1050 (42S01): Table 'employee' already exists
+mysql> create table employee(employee_id INT PRIMARY KEY,name VARCHAR(10),gender text(10),department_text(10), education text(10),month_of_joining text(10),salary INT(10));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(10), education text(10),month_of_joining text(10),salary INT(10))' at line 1
+mysql> create table employee(employee_id INT PRIMARY KEY,Name VARCHAR(10),Gender TEXT(10),department text(10), education text(10),month_of_joining text(10),salary INT(10));
+ERROR 1050 (42S01): Table 'employee' already exists
+mysql> create table Employee(employee_id INT PRIMARY KEY,Name VARCHAR(10),Gender TEXT(10),department text(10), education text(10),month_of_joining text(10),salary INT(10));
+Query OK, 0 rows affected, 1 warning (0.11 sec)
+
+mysql> INSERT INTO Employee (Employee_ID, Name, Gender, Department, Education, Month_of_Joining, Salary) VALUES (1001, 'Ajay', 'M', 'Engineering', 'Doctoral', 'January', 25), (1002, 'Babloo', 'M', 'Engineering', 'UG', 'February', 23), (1003, 'Chhavi', 'F', 'HR', 'PG', 'March', 15), (1004, 'Dheeraj', 'M', 'HR', 'UG', 'January', 12), (1005, 'Evina', 'F', 'Marketing', 'UG', 'March', 16), (1006, 'Fredy', 'M', 'Sales', 'UG', 'December', 10), (1007, 'Garima', 'F', 'Sales', 'UG', 'March', 10), (1008, 'Hans','M', 'Admin', 'PG', 'November', 8), (1009, 'Ivanka', 'F', 'Admin', 'Intermediate', 'April', 7), (1010, 'Jai', 'M', 'Peon', 'High School', 'December', 4);
+Query OK, 10 rows affected (0.02 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> select*from Employee;
++-------------+---------+--------+-------------+--------------+------------------+--------+
+| employee_id | Name    | Gender | department  | education    | month_of_joining | salary |
++-------------+---------+--------+-------------+--------------+------------------+--------+
+|        1001 | Ajay    | M      | Engineering | Doctoral     | January          |     25 |
+|        1002 | Babloo  | M      | Engineering | UG           | February         |     23 |
+|        1003 | Chhavi  | F      | HR          | PG           | March            |     15 |
+|        1004 | Dheeraj | M      | HR          | UG           | January          |     12 |
+|        1005 | Evina   | F      | Marketing   | UG           | March            |     16 |
+|        1006 | Fredy   | M      | Sales       | UG           | December         |     10 |
+|        1007 | Garima  | F      | Sales       | UG           | March            |     10 |
+|        1008 | Hans    | M      | Admin       | PG           | November         |      8 |
+|        1009 | Ivanka  | F      | Admin       | Intermediate | April            |      7 |
+|        1010 | Jai     | M      | Peon        | High School  | December         |      4 |
++-------------+---------+--------+-------------+--------------+------------------+--------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT Department, SUM(Salary)
+    -> FROM Employee
+    -> GROUP BY Department;
++-------------+-------------+
+| Department  | SUM(Salary) |
++-------------+-------------+
+| Engineering |          48 |
+| HR          |          27 |
+| Marketing   |          16 |
+| Sales       |          20 |
+| Admin       |          15 |
+| Peon        |           4 |
++-------------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT Department, SUM(Salary)
+    -> FROM Employee
+    -> GROUP BY Department
+    -> HAVING SUM(Salary) >= 20;
++-------------+-------------+
+| Department  | SUM(Salary) |
++-------------+-------------+
+| Engineering |          48 |
+| HR          |          27 |
+| Sales       |          20 |
++-------------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> 
+^C
+mysql> SELECT DISTINCT Department FROM Employee;
++-------------+
+| Department  |
++-------------+
+| Engineering |
+| HR          |
+| Marketing   |
+| Sales       |
+| Admin       |
+| Peon        |
++-------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT COUNT(Salary) FROM Employee;
++---------------+
+| COUNT(Salary) |
++---------------+
+|            10 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM Employee where Department='Engineering' and
+    -> Education='Doctorial';
+Empty set (0.00 sec)
+
+mysql> SELECT * FROM Employee where Department='Engineering' or
+    -> Education='Doctorial';
++-------------+--------+--------+-------------+-----------+------------------+--------+
+| employee_id | Name   | Gender | department  | education | month_of_joining | salary |
++-------------+--------+--------+-------------+-----------+------------------+--------+
+|        1001 | Ajay   | M      | Engineering | Doctoral  | January          |     25 |
+|        1002 | Babloo | M      | Engineering | UG        | February         |     23 |
++-------------+--------+--------+-------------+-----------+------------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT Name as First_Name,Education as Qualification from Employee;
++------------+---------------+
+| First_Name | Qualification |
++------------+---------------+
+| Ajay       | Doctoral      |
+| Babloo     | UG            |
+| Chhavi     | PG            |
+| Dheeraj    | UG            |
+| Evina      | UG            |
+| Fredy      | UG            |
+| Garima     | UG            |
+| Hans       | PG            |
+| Ivanka     | Intermediate  |
+| Jai        | High School   |
++------------+---------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT * from Employee where Name like 'A%';
++-------------+------+--------+-------------+-----------+------------------+--------+
+| employee_id | Name | Gender | department  | education | month_of_joining | salary |
++-------------+------+--------+-------------+-----------+------------------+--------+
+|        1001 | Ajay | M      | Engineering | Doctoral  | January          |     25 |
++-------------+------+--------+-------------+-----------+------------------+--------+
+1 row in set (0.00 sec)
+
+mysql> SELECT Department, SUM(Salary)
+    -> FROM Employee
+    -> WHERE Education <> ‘UG’
+    -> GROUP BY Department
+    -> HAVING SUM(Salary) >= 20;
+ERROR 1054 (42S22): Unknown column '‘UG’' in 'where clause'
+mysql> SELECT Department, SUM(Salary)
+    -> FROM Employee
+    -> WHERE Education <> ‘UG’
+    -> GROUP BY Department
+    -> 
+    -> 
+
+^C
+mysql> SELECT Department, SUM(Salary)
+    -> FROM Employee
+    -> WHERE Education <> ‘UG’
+    -> GROUP BY Department
+    -> HAVING SUM(Salary) >= 20;
+ERROR 1054 (42S22): Unknown column '‘UG’' in 'where clause'
+mysql> SELECT Department, SUM(Salary) FROM Employee WHERE Education <> 'UG' GROUP BY Department HAVING SUM(Salary) >= 20;
++-------------+-------------+
+| Department  | SUM(Salary) |
++-------------+-------------+
+| Engineering |          25 |
++-------------+-------------+
+1 row in set (0.00 sec)
+
+mysql> 
+
+
+
+

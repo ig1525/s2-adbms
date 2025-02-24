@@ -1,0 +1,166 @@
+student@student-Veriton-M200-H310:~$ sudo mysql
+[sudo] password for student: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.41-0ubuntu0.20.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database ig;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> use ig;
+mysql> e changed
+mysql> CREATE TABLE EMPLOYEE(Emp_id INTEGER PRIMAY KEY,Emp_Name TEXT NOT NULL,Dept_id TEXT
+mysql> CREATE TABLE EMPLOYEE(Emp_id INTEGER PRIMAY KEY,Emp_Name TEXT NOT NULL,Dept_id TEXT
+    -> CREATE TABLE EMPLOYEE(Emp_id INTEGER PRIMAY KEY,Emp_Name TEXT NOT NULL,Dept_id TEXT
+    -> 
+    -> 
+    -> CREATE TABLE EMPLOYEE(Emp_id INTEGER PRIMAY KEY,Emp_Name TEXT NOT NULL,Dept_id TEXT
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'PRIMAY KEY,Emp_Name TEXT NOT NULL,Dept_id TEXT
+CREATE TABLE EMPLOYEE(Emp_id INTE' at line 1
+mysql> CREATE TABLE EMPLOYEE(Emp_id INTEGER PRIMAY KEY,Emp_Name TEXT NOT NULL,Dept_id TEXT
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'PRIMAY KEY,Emp_Name TEXT NOT NULL,Dept_id TEXT' at line 1
+mysql> CREATE TABLE EMPLOYEE(Emp_id INTEGER PRIMAY KEY,Emp_Name TEXT NOT NULL,Emp_Name TEXT NOT NULL,
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'PRIMAY KEY,Emp_Name TEXT NOT NULL,Emp_Name TEXT NOT NULL,' at line 1
+mysql> CREATE TABLE EMPLOYEE(Emp_id INTEGER PRIMAY KEY,Emp_Name TEXT NOT NULL,Emp_Name TEXT NOT NULL,Emp_Add TEXT NOT NULL,Emp_Phone INT NOT NULL,Dept_id TEXT NOT NULL,Dept_Name TEXT NOT NULL,SalarY TEXT NOT NULL);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'PRIMAY KEY,Emp_Name TEXT NOT NULL,Emp_Name TEXT NOT NULL,Emp_Add TEXT NOT NULL,E' at line 1
+mysql> CREATE TABLE EMPLOYEE(Emp_id INTEGER PRIMAY KEY,Emp_Name TEXT NOT NULL,Emp_Add TEXT NOT NULL,Emp_Phone INT NOT NULL,Dept_id TEXT NOT NULL,Dept_Name TEXT NOT NULL,
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'PRIMAY KEY,Emp_Name TEXT NOT NULL,Emp_Add TEXT NOT NULL,Emp_Phone INT NOT NULL,D' at line 1
+mysql> CREATE TABLE EMPLOYEE(Emp_id INTEGER PRIMARY KEY,Emp_Name TEXT NOT NULL,Emp_Add TEXT NOT NULL,Emp_Phone INT NOT NULL,Dept_id TEXT NOT NULL,Dept_Name TEXT NOT NULL,
+Query OK, 0 rows affected (0.26 sec)
+
+mysql> INSERT INTO EMPLOYEE VALUES(1,'RAMESH','GNOIDA',9855498465,'3445','SALES','25000');
+ERROR 1264 (22003): Out of range value for column 'Emp_Phone' at row 1
+mysql> INSERT INTO EMPLOYEE VALUES(1,'RAMESH','GNOIDA',985549846,'3445','SALES','25000');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> INSERT INTO EMPLOYEE VALUES(2,'SARA','GNOIDA',985549846,'0072','SALES','75000');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO EMPLOYEE VALUES(3,'RAJESH','GNOIDA',985549846,'2324','SALES','28000');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO EMPLOYEE VALUES(4,'SHYAM','GNOIDA',935464674,'8883','SALES','35000');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> INSERT INTO EMPLOYEE VALUES(5,'RAMA','GNOIDA',935464124,'74568','SALES','96000');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> SELECT*FROM EMPLOYEE;
++--------+----------+---------+-----------+---------+-----------+--------+
+| Emp_id | Emp_Name | Emp_Add | Emp_Phone | Dept_id | Dept_Name | SalarY |
++--------+----------+---------+-----------+---------+-----------+--------+
+|      1 | RAMESH   | GNOIDA  | 985549846 | 3445    | SALES     | 25000  |
+|      2 | SARA     | GNOIDA  | 985549846 | 0072    | SALES     | 75000  |
+|      3 | RAJESH   | GNOIDA  | 985549846 | 2324    | SALES     | 28000  |
+|      4 | SHYAM    | GNOIDA  | 935464674 | 8883    | SALES     | 35000  |
+|      5 | RAMA     | GNOIDA  | 935464124 | 74568   | SALES     | 96000  |
++--------+----------+---------+-----------+---------+-----------+--------+
+5 rows in set (0.00 sec)
+
+mysql> create user 'XYZ'@'localhost identified by 'a123';
+    '> INSERT INTO EMPLOYEE VALUES(5,'RAMA','GNOIDA',935464124,'74568','SALES','96000');;
+    '> INSERT INTO EMPLOYEE VALUES(5,'RAMA','GNOIDA',935464124,'74568','SALES','96000');;;
+    '> ;
+    '> c
+    '> ;;
+    '> ;
+    '> ^C
+
+^C
+mysql>  create user 'XYZ'@'localhost identified by 'a123';
+    '> 
+
+^C
+mysql> create user'XYZ'@'localhost' identified by 'a123';
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> grant all privileges on EMPLOYEE to 'XYZ'@'localhost';
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> show  grants  for'XYZ'@'localhost';
++--------------------------------------------------------------+
+| Grants for XYZ@localhost                                     |
++--------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `XYZ`@`localhost`                      |
+| GRANT ALL PRIVILEGES ON `ig`.`EMPLOYEE` TO `XYZ`@`localhost` |
++--------------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> quit;
+Bye
+student@student-Veriton-M200-H310:~$ mysql -u'XYZ'@'l0ocalhost'-p
+ERROR 1045 (28000): Access denied for user 'XYZ@l0ocalhost-p'@'localhost' (using password: NO)
+student@student-Veriton-M200-H310:~$ mysql -u 'XYZ'@'l0ocalhost' -p
+Enter password: 
+ERROR 1045 (28000): Access denied for user 'XYZ@l0ocalhost'@'localhost' (using password: YES)
+student@student-Veriton-M200-H310:~$ mysql -u XYZ -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 11
+Server version: 8.0.41-0ubuntu0.20.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use ig;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> select*from EMPLOYEE;
++--------+----------+---------+-----------+---------+-----------+--------+
+| Emp_id | Emp_Name | Emp_Add | Emp_Phone | Dept_id | Dept_Name | SalarY |
++--------+----------+---------+-----------+---------+-----------+--------+
+|      1 | RAMESH   | GNOIDA  | 985549846 | 3445    | SALES     | 25000  |
+|      2 | SARA     | GNOIDA  | 985549846 | 0072    | SALES     | 75000  |
+|      3 | RAJESH   | GNOIDA  | 985549846 | 2324    | SALES     | 28000  |
+|      4 | SHYAM    | GNOIDA  | 935464674 | 8883    | SALES     | 35000  |
+|      5 | RAMA     | GNOIDA  | 935464124 | 74568   | SALES     | 96000  |
++--------+----------+---------+-----------+---------+-----------+--------+
+5 rows in set (0.00 sec)
+
+mysql> quit;
+Bye
+
+mysql> use ig;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> revoke all privileges on EMPLOYEE from 'XYZ'@'localhost' ;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> -u 'XYZ'@'localhost' -p
+    -> select * from EMPLOYEE;
+select * from EMPLOYEE' at line 1
+mysql> select*from EMPLOYEE;
++--------+----------+---------+-----------+---------+-----------+--------+
+| Emp_id | Emp_Name | Emp_Add | Emp_Phone | Dept_id | Dept_Name | SalarY |
++--------+----------+---------+-----------+---------+-----------+--------+
+|      1 | RAMESH   | GNOIDA  | 985549846 | 3445    | SALES     | 25000  |
+|      2 | SARA     | GNOIDA  | 985549846 | 0072    | SALES     | 75000  |
+|      3 | RAJESH   | GNOIDA  | 985549846 | 2324    | SALES     | 28000  |
+|      4 | SHYAM    | GNOIDA  | 935464674 | 8883    | SALES     | 35000  |
+|      5 | RAMA     | GNOIDA  | 935464124 | 74568   | SALES     | 96000  |
++--------+----------+---------+-----------+---------+-----------+--------+
+5 rows in set (0.00 sec)
+
+mysql> QUIT;
+Bye
+student@student-Veriton-M200-H3
