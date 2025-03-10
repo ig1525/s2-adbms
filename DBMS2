@@ -17,30 +17,10 @@ Query OK, 1 row affected (0.03 sec)
 
 mysql> use ig;
 mysql> e changed
-mysql> CREATE TABLE EMPLOYEE(Emp_id INTEGER PRIMAY KEY,Emp_Name TEXT NOT NULL,Dept_id TEXT
-mysql> CREATE TABLE EMPLOYEE(Emp_id INTEGER PRIMAY KEY,Emp_Name TEXT NOT NULL,Dept_id TEXT
-    -> CREATE TABLE EMPLOYEE(Emp_id INTEGER PRIMAY KEY,Emp_Name TEXT NOT NULL,Dept_id TEXT
-    -> 
-    -> 
-    -> CREATE TABLE EMPLOYEE(Emp_id INTEGER PRIMAY KEY,Emp_Name TEXT NOT NULL,Dept_id TEXT
-    -> ;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'PRIMAY KEY,Emp_Name TEXT NOT NULL,Dept_id TEXT
-CREATE TABLE EMPLOYEE(Emp_id INTE' at line 1
-mysql> CREATE TABLE EMPLOYEE(Emp_id INTEGER PRIMAY KEY,Emp_Name TEXT NOT NULL,Dept_id TEXT
-    -> ;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'PRIMAY KEY,Emp_Name TEXT NOT NULL,Dept_id TEXT' at line 1
-mysql> CREATE TABLE EMPLOYEE(Emp_id INTEGER PRIMAY KEY,Emp_Name TEXT NOT NULL,Emp_Name TEXT NOT NULL,
-    -> ;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'PRIMAY KEY,Emp_Name TEXT NOT NULL,Emp_Name TEXT NOT NULL,' at line 1
-mysql> CREATE TABLE EMPLOYEE(Emp_id INTEGER PRIMAY KEY,Emp_Name TEXT NOT NULL,Emp_Name TEXT NOT NULL,Emp_Add TEXT NOT NULL,Emp_Phone INT NOT NULL,Dept_id TEXT NOT NULL,Dept_Name TEXT NOT NULL,SalarY TEXT NOT NULL);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'PRIMAY KEY,Emp_Name TEXT NOT NULL,Emp_Name TEXT NOT NULL,Emp_Add TEXT NOT NULL,E' at line 1
-mysql> CREATE TABLE EMPLOYEE(Emp_id INTEGER PRIMAY KEY,Emp_Name TEXT NOT NULL,Emp_Add TEXT NOT NULL,Emp_Phone INT NOT NULL,Dept_id TEXT NOT NULL,Dept_Name TEXT NOT NULL,
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'PRIMAY KEY,Emp_Name TEXT NOT NULL,Emp_Add TEXT NOT NULL,Emp_Phone INT NOT NULL,D' at line 1
+
 mysql> CREATE TABLE EMPLOYEE(Emp_id INTEGER PRIMARY KEY,Emp_Name TEXT NOT NULL,Emp_Add TEXT NOT NULL,Emp_Phone INT NOT NULL,Dept_id TEXT NOT NULL,Dept_Name TEXT NOT NULL,
 Query OK, 0 rows affected (0.26 sec)
 
-mysql> INSERT INTO EMPLOYEE VALUES(1,'RAMESH','GNOIDA',9855498465,'3445','SALES','25000');
-ERROR 1264 (22003): Out of range value for column 'Emp_Phone' at row 1
 mysql> INSERT INTO EMPLOYEE VALUES(1,'RAMESH','GNOIDA',985549846,'3445','SALES','25000');
 Query OK, 1 row affected (0.02 sec)
 
