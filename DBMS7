@@ -17,20 +17,7 @@ Reading table information for completion of table and column names
 You can turn off this feature to get a quicker startup with -A
 
 Database changed
-mysql> create table employees values(emp_id int primary key,emp_name varachar(20),emp_age int, city varchar(20),income int);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(emp_id int primary key,emp_name varachar(20),emp_age int, city varchar(20),inco' at line 1
-mysql> create table employee values(emp_id int primary key,emp_name varachar(20),emp_age int, city varchar(20),income int);;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(emp_id int primary key,emp_name varachar(20),emp_age int, city varchar(20),inco' at line 1
-mysql> create table employeee values(emp_id int primary key,emp_name varachar(20),emp_age int, city varchar(20),income int);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(emp_id int primary kmysql> create table employeee values(emp_id int primary key,emp_name varachar(20),emp_age int, city varchar(20),income int);^C.32                         
-.32ql> create table employeee values(emp_id int primary key,emp_name varachar(20),emp_age int, city varchar(20),income int);
-^C
-mysql> create table employees values(emp_id int primary key,emp_name varachar(20),emp_age int,city varchar(20),income int);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(emp_id int primary key,emp_name varachar(20),emp_age int,city varchar(20),incom' at line 1
-mysql> create table employees(emp_id int primary key,emp_name varachar(20),emp_age int,city varchar(20),income int);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'varachar(20),emp_age int,city varchar(20),income int)' at line 1
-mysql> create table employees(emp_id int primary key,emp_name varchar(20),emp_age int,city varchar(20),income int);
-ERROR 1050 (42S01): Table 'employees' already exists
+
 mysql> create table employeee(emp_id int primary key,emp_name varchar(20),emp_age int,city varchar(20),income int);
 Query OK, 0 rows affected (0.11 sec)
 
@@ -67,10 +54,6 @@ Query OK, 1 row affected (0.02 sec)
 mysql> insert into employeee values(111,'alexandar',45,'california',70000);
 Query OK, 1 row affected (0.02 sec)
 
-mysql> SELECT emp_name, city, income FROM employees
-    -> ^C^C^C^C^C^C^C^C
-
-^C
 mysql> SELECT emp_name, city, income FROM employeee WHERE emp_id IN (SELECT emp_id FROM employeee);
 +-----------+------------+---------+
 | emp_name  | city       | income  |
