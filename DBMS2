@@ -48,20 +48,7 @@ mysql> SELECT*FROM EMPLOYEE;
 +--------+----------+---------+-----------+---------+-----------+--------+
 5 rows in set (0.00 sec)
 
-mysql> create user 'XYZ'@'localhost identified by 'a123';
-    '> INSERT INTO EMPLOYEE VALUES(5,'RAMA','GNOIDA',935464124,'74568','SALES','96000');;
-    '> INSERT INTO EMPLOYEE VALUES(5,'RAMA','GNOIDA',935464124,'74568','SALES','96000');;;
-    '> ;
-    '> c
-    '> ;;
-    '> ;
-    '> ^C
 
-^C
-mysql>  create user 'XYZ'@'localhost identified by 'a123';
-    '> 
-
-^C
 mysql> create user'XYZ'@'localhost' identified by 'a123';
 Query OK, 0 rows affected (0.03 sec)
 
@@ -79,11 +66,7 @@ mysql> show  grants  for'XYZ'@'localhost';
 
 mysql> quit;
 Bye
-student@student-Veriton-M200-H310:~$ mysql -u'XYZ'@'l0ocalhost'-p
-ERROR 1045 (28000): Access denied for user 'XYZ@l0ocalhost-p'@'localhost' (using password: NO)
-student@student-Veriton-M200-H310:~$ mysql -u 'XYZ'@'l0ocalhost' -p
-Enter password: 
-ERROR 1045 (28000): Access denied for user 'XYZ@l0ocalhost'@'localhost' (using password: YES)
+
 student@student-Veriton-M200-H310:~$ mysql -u XYZ -p
 Enter password: 
 Welcome to the MySQL monitor.  Commands end with ; or \g.
