@@ -1,0 +1,236 @@
+1.
+
+mysql> CREATE TABLE employees (
+-> employee_id INT PRIMARY KEY,
+-> first_name VARCHAR(50),
+-> last_name VARCHAR(50),
+-> salary DECIMAL(10, 2)
+-> );
+Query OK, 0 rows affected (0.11 sec)
+mysql> CREATE TABLE audit_log (
+-> log_id INT PRIMARY KEY AUTO_INCREMENT,
+-> action VARCHAR(255),
+-> timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-> );
+Query OK, 0 rows affected (0.03 sec)
+mysql> INSERT INTO employees (employee_id, first_name, last_name, salary)
+-> VALUES
+-> (1, 'John', 'Doe', 50000.00),
+-> (2, 'Jane', 'Smith', 60000.00),
+-> (3, 'Michael', 'Johnson', 55000.00);
+Query OK, 3 rows affected (0.02 sec)
+
+mysql> INSERT INTO audit_log (action, timestamp)
+-> VALUES
+->
+('New employees added', CURRENT_TIMESTAMP);
+Query OK, 1 row affected (0.01 sec)
+mysql> select * from employees;
++---------------+--------------+------------+----------+
+| employee_id | first_name | last_name | salary |
++----------------+-------------+------------+----------+
+| 1 | John | Doe | 50000.00 |
+| 2 | Jane | Smith | 60000.00 |
+| 3 | Michael | Johnson | 55000.00 |
++-------------+------------+-----------+----------+
+3 rows in set (0.00 sec)
+mysql> select * from audit_log;;
++--------+----------------------------+---------------------+
+| log_id | action
+| timestamp
+|
++--------+----------------------------+---------------------+
+|
+1
+| New employees added | 2024-03-19 15:29:12 |
++--------+----------------------------+------------------------+
+1 row in set (0.00 sec)
+mysql> DELIMITER //
+mysql>
+mysql> CREATE TRIGGER after_employee_insert
+-> AFTER INSERT ON employees
+-> FOR EACH ROW
+-> BEGIN
+-> INSERT INTO audit_log (action, timestamp)
+-> VALUES ('New employee inserted', NOW());
+-> END //Query OK, 0 rows affected (0.02 sec)
+mysql> DELIMITER ;
+mysql> INSERT INTO employees (employee_id, first_name, last_name, salary)
+-> VALUES (4, 'Minnu', 'Joseph', 65000.00);
+Query OK, 1 row affected (0.01 sec)
+mysql> select * from employees;
++-------------+------------+-----------+----------+
+| employee_id | first_name | last_name | salary |
++-------------+------------+-----------+----------+
+| 1 | John
+| Doe
+| 50000.00 |
+| 2 | Jane
+| Smith
+| 60000.00 |
+| 3 | Michael | Johnson | 55000.00 |
+| 4 | Minnu
+| Joseph
+| 65000.00 |
++-------------+------------+-----------+----------+
+4 rows in set (0.00 sec)
+mysql> select * from audit_log;
++--------+-----------------------------+-------------------------+
+| log_id | action
+| timestamp
+|
++--------+-----------------------------+-------------------------+
+| 1 | New employees added | 2024-03-19 15:29:12 |
+| 2 | New employee inserted | 2024-03-19 20:15:58 |
++--------+-----------------------------+--------------------------+
+2 rows in set (0.01 sec)
+
+
+2. MySQL Trigger : Example BEFORE UPDATE
+mysql> CREATE TABLE Std1 (
+-> studentID INT PRIMARY KEY,
+-> Name VARCHAR(20),
+-> sub1 INT,
+-> sub2 INT,
+-> sub3 INT,
+-> sub4 INT,
+-> sub5 INT,
+-> total INT,
+-> per_marks INT,
+-> grade VARCHAR(20)
+-> );
+Query OK, 0 rows affected (0.02 sec)
+mysql> INSERT INTO Std1 (studentID, Name, sub1, sub2, sub3, sub4, sub5)
+-> VALUES
+-> (1, 'Student1', 0, 0, 0, 0, 0),
+-> (2, 'Student2', 0, 0, 0, 0, 0);Query OK, 2 rows affected (0.01 sec)
+Records: 2 Duplicates: 0 Warnings: 0
+mysql> select * from std1;
++-----------+----------+------+------+------+------+------+-------+-----------+-----------+
+| studentID | Name
+| sub1 | sub2 | sub3 | sub4 | sub5 | total | per_marks | grade
++-----------+----------+------+------+------+------+------+-------+-----------+-----------+
+| 1 | Student1 | 0 | 0 | 0 | 0 | 0 | NULL | NULL| NULL |
+| 2 | Student2 | 0 | 0 | 0 | 0 | 0 | NULL | NULL | NULL |
++-----------+----------+------+------+------+------+------+-------+-----------+-----------
+mysql> DELIMITER //
+mysql> CREATE TRIGGER std_before_update
+-> BEFORE UPDATE ON Std1
+-> FOR EACH ROW
+-> BEGIN
+-> DECLARE total_marks INT;
+-> DECLARE per_marks INT;
+-> DECLARE grade VARCHAR(20);
+-> SET total_marks = NEW.sub1 + NEW.sub2 + NEW.sub3 + NEW.sub4 +
+NEW.sub5;
+-> SET per_marks = total_marks / 5;
+-> IF per_marks >= 90 THEN
+->
+->
+->
+->
+SET grade = 'EXCELLENT';
+ELSEIF per_marks >= 75 AND per_marks < 90 THEN
+SET grade = 'VERY GOOD';
+ELSEIF per_marks >= 60 AND per_marks < 75 THEN
+|->
+SET grade = 'GOOD';
+->
+ELSEIF per_marks >= 40 AND per_marks < 60 THEN
+->
+SET grade = 'AVERAGE';
+->
+ELSE
+->
+SET grade = 'NOT PROMOTED';
+-> END IF;
+-> SET NEW.total = total_marks;
+-> SET NEW.per_marks = per_marks;
+-> SET NEW.grade = grade;
+-> END;
+-> //
+Query OK, 0 rows affected (0.01 sec)
+mysql>
+mysql> DELIMITER ;
+mysql> UPDATE Std1 SET sub1 = 90, sub2 = 75, sub3 = 90, sub4 = 95, sub5 = 85
+WHERE studentID = 1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1 Changed: 1 Warnings: 0
+mysql> SELECT * FROM Std1;
++-----------+----------+------+------+------+------+------+-------+-----------+-----------+
+| studentID | Name
+| sub1 | sub2 | sub3 | sub4 | sub5 | total | per_marks | grade
+|
++-----------+----------+------+------+------+------+------+-------+-----------+-----------+
+| 1 | Student1 | 90 | 75 | 90 | 95 | 85 | 435 | 87
+| 2 | Student2 | 0 | 0 | 0 | 0
+| 0
+| VERY GOOD |
+| NULL | NULL | NULL
++-----------+----------+------+------+------+------+------+-------+-----------+-----------
+
+
+3 AFTER UPDATE Trigger Example
+
+mysql> CREATE TABLE students(id int NOT NULL AUTO_INCREMENT,name varchar(45) NOT NULL,class int NOT NULL,email_id varchar(65) NOT NULL,PRIMARY KEY (id));
+Query OK, 0 rows affected (0.11 sec)
+
+
+mysql> INSERT INTO students(name, class, email_id)VALUES ('Stephen', 6, 'stephen@gmail.com'),('Bob', 7, 'bob@gmail.com'),('Steven', 8, 'steven@ gmail.com'), ('Alexandar', 7, 'alexandar@ gmail.com');
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE student_log (user VARCHAR(45) NOT NULL,descriptions VARCHAR(65) NOT NULL);
+Query OK, 0 rows affected (0.11 sec)
+
+
+mysql> INSERT INTO students(name, class, email_id)VALUES ('Stephen', 6, 'stephen@gmail.com'),('Bob', 7, 'bob@gmail.com'),('Steven', 8, 'steven@ gmail.com'), ('Alexandar', 7, 'alexandar@ gmail.com');
+Query OK, 4 rows affected (0.02 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from students;
++----+-----------+-------+----------------------+
+| id | name      | class | email_id             |
++----+-----------+-------+----------------------+
+|  1 | Stephen   |     6 | stephen@gmail.com    |
+|  2 | Bob       |     7 | bob@gmail.com        |
+|  3 | Steven    |     8 | steven@ gmail.com    |
+|  4 | Alexandar |     7 | alexandar@ gmail.com |
++----+-----------+-------+----------------------+
+4 rows in set (0.00 sec)
+
+mysql> DELIMITER //
+mysql> CREATE TRIGGER after_update_stdnts AFTER UPDATE ON students FOR EACH ROW BEGIN INSERT INTO student_log VALUES (user(), CONCAT('Update Student Record ', OLD.name, ' Previous Class :', OLD.class, ' Present Class ', NEW.class));
+    -> END //
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> delimiter ;
+mysql> select * from student_log;
+Empty set (0.01 sec)
+
+mysql> update students set class=class+1;
+Query OK, 4 rows affected (0.02 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+mysql> select * from student_log;
++----------------+-------------------------------------------------------------------+
+| user           | descriptions                                                      |
++----------------+-------------------------------------------------------------------+
+| root@localhost | Update Student Record Stephen Previous Class :6 Present Class 7   |
+| root@localhost | Update Student Record Bob Previous Class :7 Present Class 8       |
+| root@localhost | Update Student Record Steven Previous Class :8 Present Class 9    |
+| root@localhost | Update Student Record Alexandar Previous Class :7 Present Class 8 |
++----------------+-------------------------------------------------------------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from students;
++----+-----------+-------+----------------------+
+| id | name      | class | email_id             |
++----+-----------+-------+----------------------+
+|  1 | Stephen   |     7 | stephen@gmail.com    |
+|  2 | Bob       |     8 | bob@gmail.com        |
+|  3 | Steven    |     9 | steven@ gmail.com    |
+|  4 | Alexandar |     8 | alexandar@ gmail.com |
++----+-----------+-------+----------------------+
+4 rows in set (0.00 sec)
+

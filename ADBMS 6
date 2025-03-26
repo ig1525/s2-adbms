@@ -1,0 +1,89 @@
+mysql> CREATE VIEW newyorkstaff AS SELECT * FROM salesman
+    -> WHERE city = 'New York';
+mysql> SELECT * FROM newyorkstaff;
++-------------+------------+----------+------------+
+| salesman_id | name       | city     | commission |
++-------------+------------+----------+------------+
+|        5001 | James Hoog | New York |       0.15 |
++-------------+------------+----------+------------+
+1 row in set (0.01 sec)
+
+
+
+mysql> CREATE VIEW gradecount (grade, number) AS SELECT grade, COUNT(*)
+    -> FROM customer GROUP BY grade;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> SELECT * FROM gradecount;
++-------+--------+
+| grade | number |
++-------+--------+
+| 100   |      3 |
+| 200   |      3 |
+| 300   |      2 |
++-------+--------+
+3 rows in set (0.00 sec)
+
+mysql> CREATE VIEW totalforday AS SELECT ord_date, COUNT (DISTINCT
+    -> customer_id), AVG(purch_amt), SUM(purch_amt) FROM orders GROUP BY
+    -> ord_date;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DISTINCT
+customer_id), AVG(purch_amt), SUM(purch_amt) FROM orders GROUP BY
+ord_d' at line 1
+mysql> CREATE VIEW totalforday AS SELECT ord_date, count(distinct customer_id),
+ avg(purch_amt), sum(purch_amt) FROM orders GROUP BY ord_date;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> SELECT * FROM totalforday;
++------------+-----------------------------+----------------+----------------+
+| ord_date   | count(distinct customer_id) | avg(purch_amt) | sum(purch_amt) |
++------------+-----------------------------+----------------+----------------+
+| 2012-04-25 |                           1 |    3045.600000 |        3045.60 |
+| 2012-06-27 |                           1 |     250.450000 |         250.45 |
+| 2012-07-27 |                           1 |    2400.600000 |        2400.60 |
+| 2012-08-17 |                           2 |      92.895000 |         185.79 |
+| 2012-09-10 |                           3 |    2326.383333 |        6979.15 |
+| 2012-10-05 |                           2 |     107.880000 |         215.76 |
+| 2012-10-10 |                           2 |    2231.915000 |        4463.83 |
++------------+-----------------------------+----------------+----------------+
+7 rows in set (0.00 sec)
+
+mysql> CREATE VIEW sorder AS SELECT salesman_id, ord_no, customer_id
+    -> FROM orders WHERE ord_date IN ('2012-08-17', '2012-10-10');
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> select * from sorder;
++-------------+--------+-------------+
+| salesman_id | ord_no | customer_id |
++-------------+--------+-------------+
+|        5003 |  70003 |        3009 |
+|        5003 |  70004 |        3009 |
+|        5006 |  70010 |        3004 |
+|        5007 |  70011 |        3003 |
++-------------+--------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> CREATE VIEW elitsalesman AS SELECT b.ord_date, a.salesman_id, a.name
+    -> FROM salesman a, orders b WHERE a.salesman_id = b.salesman_id
+    -> AND b.purch_amt=(SELECT MAX (purch_amt) FROM orders c WHERE
+    -> c.ord_date = b.ord_date);
+ERROR 1630 (42000): FUNCTION sobu.MAX does not exist. Check the 'Function Name Parsing and Resolution' section in the Reference Manual
+mysql> CREATE VIEW elitsalesman AS SELECT b.ord_date, a.salesman_id, a.name FROM salesman a, orders b WHERE a.salesman_id = b.salesman_id AND b.purch_amt=(SELECT MAX(purch_amt) FROM orders c WHERE c.ord_date = b.ord_date);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> select * from elitsalesman;
++------------+-------------+------------+
+| ord_date   | salesman_id | name       |
++------------+-------------+------------+
+| 2012-07-27 |        5001 | James Hoog |
+| 2012-09-10 |        5001 | James Hoog |
+| 2012-04-25 |        5001 | James Hoog |
+| 2012-10-05 |        5002 | Nail Knite |
+| 2012-06-27 |        5002 | Nail Knite |
+| 2012-10-10 |        5003 | Lause Hen  |
+| 2012-08-17 |        5003 | Lause Hen  |
++------------+-------------+------------+
+7 rows in set (0.00 sec)
+
+mysql> 
+

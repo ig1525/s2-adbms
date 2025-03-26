@@ -1,0 +1,162 @@
+mysql> select * from sailors;
++-----+---------+--------+------+
+| sid | sname   | rating | age  |
++-----+---------+--------+------+
+|  22 | dustin  |      7 |   45 |
+|  29 | brutus  |      1 |   33 |
+|  31 | lubber  |      8 |   56 |
+|  32 | andy    |      8 |   26 |
+|  58 | rusty   |     10 |   35 |
+|  64 | horatio |      7 |   35 |
+|  71 | zorba   |     10 |   16 |
+|  74 | horatio |      9 |   35 |
+|  85 | art     |      3 |   26 |
+|  95 | bob     |      3 |   64 |
++-----+---------+--------+------+
+10 rows in set (0.01 sec)
+
+mysql> select * from reserves;
++------+------+------------+
+| sid  | bid  | day        |
++------+------+------------+
+|   22 |  101 | 1998-10-10 |
+|   22 |  102 | 1998-10-10 |
+|   22 |  103 | 1998-10-08 |
+|   22 |  104 | 1998-10-07 |
+|   31 |  102 | 1998-11-10 |
+|   31 |  103 | 1998-11-06 |
+|   31 |  104 | 1998-11-12 |
+|   64 |  101 | 1998-09-05 |
+|   64 |  102 | 1998-09-08 |
+|   74 |  103 | 1998-09-08 |
++------+------+------------+
+10 rows in set (0.00 sec)
+
+mysql> select * from boats;
++-----+-----------+-------+
+| bid | bname     | color |
++-----+-----------+-------+
+| 101 | Interlake | blue  |
+| 102 | Interlake | red   |
+| 103 | Clipper   | green |
+| 104 | Marine    | red   |
++-----+-----------+-------+
+4 rows in set (0.00 sec)
+
+
+mysql> SELECT COUNT(DISTINCT color) FROM boats;
++-----------------------+
+| COUNT(DISTINCT color) |
++-----------------------+
+|                     3 |
++-----------------------+
+1 row in set (0.00 sec)
+
+
+mysql> select * from sailors where sid in (select sid from reserves where bid=101);
++-----+---------+--------+------+
+| sid | sname   | rating | age  |
++-----+---------+--------+------+
+|  22 | dustin  |      7 |   45 |
+|  64 | horatio |      7 |   35 |
++-----+---------+--------+------+
+2 rows in set (0.00 sec)
+
+
+mysql> SELECT sname FROM sailors S, reserves R WHERE S.sid = R.sid;
++---------+
+| sname   |
++---------+
+| dustin  |
+| dustin  |
+| dustin  |
+| dustin  |
+| lubber  |
+| lubber  |
+| lubber  |
+| horatio |
+| horatio |
+| horatio |
++---------+
+10 rows in set (0.00 sec)
+
+mysql> select sname,age from sailors where sid in (select sid from reserves,boats where
+    -> reserves.bid=boats.bid and color='red') order by age;
++---------+------+
+| sname   | age  |
++---------+------+
+| horatio |   35 |
+| dustin  |   45 |
+| lubber  |   56 |
++---------+------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT b.bname, s.sname
+    -> FROM boats b
+    -> INNER JOIN reserves r ON b.bid = r.bid INNER JOIN sailors s ON
+    -> s.sid=r.sid;
++-----------+---------+
+| bname     | sname   |
++-----------+---------+
+| Interlake | dustin  |
+| Interlake | dustin  |
+| Clipper   | dustin  |
+| Marine    | dustin  |
+| Interlake | lubber  |
+| Clipper   | lubber  |
+| Marine    | lubber  |
+| Interlake | horatio |
+| Interlake | horatio |
+| Clipper   | horatio |
++-----------+---------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT DISTINCT S.sid, S.sname
+    -> FROM sailors S, reserves R1, reserves R2
+    -> WHERE S.sid = R1.sid AND R1.day = R2.day
+    -> AND R1.bid <> R2.bid;
++-----+---------+
+| sid | sname   |
++-----+---------+
+|  22 | dustin  |
+|  74 | horatio |
+|  64 | horatio |
++-----+---------+
+3 rows in set (0.00 sec)
+
+
+mysql> SELECT R.sid FROM boats B, reserves R WHERE R.bid = B.bid AND B.color = 'red' UNION SELECT R2.sid FROM boats B2, reserves R2 WHERE R2.bid = B2.bid AND B2.color = 'green';
++------+
+| sid  |
++------+
+|   22 |
+|   31 |
+|   64 |
+|   74 |
++------+
+4 rows in set (0.00 sec)
+
+
+mysql> SELECT S.sname FROM sailors S WHERE NOT EXISTS (SELECT B.bid FROM boats B
+ WHERE NOT EXISTS(SELECT R.bid FROM reserves R WHERE R.bid = B.bid AND R.sid = S.sid));
++--------+
+| sname  |
++--------+
+| dustin |
++--------+
+1 row in set (0.00 sec)
+
+mysql> select * from boats;
++-----+-----------+-------+
+| bid | bname     | color |
++-----+-----------+-------+
+| 101 | Interlake | blue  |
+| 102 | Interlake | red   |
+| 103 | Clipper   | green |
+| 104 | Marine    | red   |
++-----+-----------+-------+
+4 rows in set (0.00 sec)
+
+
+
+

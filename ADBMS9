@@ -1,0 +1,166 @@
+1.
+
+mysql>  delimiter //
+mysql> create procedure display()
+    -> begin
+    -> select * from student;
+    -> end
+    -> //
+Query OK, 0 rows affected (0.03 sec)
+
+
+mysql> delimiter ;
+mysql> call display();
++--------+-------+--------+
+| rollno | name  | course |
++--------+-------+--------+
+|      1 | ammu  | mca    |
+|      2 | amal  | mca    |
+|      4 | anila | mca    |
++--------+-------+--------+
+3 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+2.ysql>  delimiter //
+mysql> create procedure `sum`(IN a INT,IN b INT)
+    -> begin
+    -> declare c INT;
+    -> set c=a+b;
+    -> select concat('Sum of two numbers=',c)as result;
+    -> end //
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter ;
+mysql> call `sum`(5,10);
++-----------------------+
+| result                |
++-----------------------+
+| Sum of two numbers=15 |
++-----------------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+
+
+
+
+
+3.
+
+mysql> delimiter //
+mysql> create procedure checkOddorEven(IN input_number INT)
+    -> begin
+    -> if mod(input_number,2)=0 then
+    -> select 'Even' As result;
+    -> else
+    -> select 'Odd' As result;
+    -> end if;
+    -> end //
+Query OK, 0 rows affected (0.04 sec)
+
+
+mysql> delimiter ;
+mysql> call checkOddorEven(2);
++--------+
+| result |
++--------+
+| Even   |
++--------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> call checkOddorEven(3);
++--------+
+| result |
++--------+
+| Odd    |
++--------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+4.
+
+mysql> delimiter //
+mysql> create procedure factorial(in a int)
+    -> begin
+    -> declare f int default 1;
+    -> while a>0 do
+    -> set f=f*a;
+    -> set a=a-1;
+    -> end while;
+    -> select concat('Factorial=',f)as result;
+    -> end //
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter ;
+mysql> call factorial(5);
++---------------+
+| result        |
++---------------+
+| Factorial=120 |
++---------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+
+5.
+
+mysql>DELIMITER //
+mysql>CREATE PROCEDURE find_largest(IN a INT, IN b INT, IN c INT)
+    ->BEGIN
+    ->DECLARE l INT;
+    ->SET l = a;
+    ->IF b > l THEN
+    ->SET l = b;
+    ->END IF;
+    ->IF c > l THEN
+    ->SET l = c;
+    ->END IF;
+    ->SELECT CONCAT('The largest is ', l) AS result;
+    ->END //
+Query OK, 0 rows affected (0.02 sec)
+
+mysql>DELIMITER ;
+mysql> call find_largest(1,5,4);
++------------------+
+| result           |
++------------------+
+| The largest is 5 |
++------------------+
+1 row in set (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+
+6.
+
+mysql> delimiter //
+mysql> create procedure sumof1(in a int)
+    -> begin
+    -> declare sum int default 0;
+    -> declare rev int;
+    -> while a>0 do
+    -> set rev=a%10;
+    -> set sum=sum+rev;
+    -> set a=a DIV 10;
+    -> end while;
+    -> select concat('sum is',sum) as result;
+    -> end //
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter ;
+mysql> call sumof1(153);
++----------+
+| result   |
++----------+
+| sum is 10 |
++----------+
+1 row in set (0.00 sec)
+
+
